@@ -5,7 +5,25 @@ const ideaRoutes = require('./routes/ideas.routes');
 
 dotenv.config();
 const app = express();
-app.use(cors());
+
+// ✅ Define allowed frontend origin (update with your real Vercel frontend URL)
+const allowedOrigins = [
+  'https://surprise-ideas-opr7yf5ke-visnecs-projects.vercel.app'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS not allowed for this origin'));
+    }
+  }
+}));
+
+// ✅ Enable preflight support
+app.options('*', cors());
+
 app.use(express.json());
 
 app.get('/', (req, res) => res.send('Surprise Ideas API Root'));
