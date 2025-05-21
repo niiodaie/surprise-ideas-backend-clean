@@ -1,9 +1,10 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const ideaRoutes = require('./routes/ideas.routes');
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import ideaRoutes from './routes/ideas.routes.js';
 
 dotenv.config();
+
 const app = express();
 app.use(cors());
 app.use(express.json());
