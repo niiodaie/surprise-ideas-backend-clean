@@ -1,7 +1,7 @@
-import { Router } from 'express';
+import express from 'express';
 import OpenAI from 'openai';
 
-const router = Router();
+const router = express.Router();
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
@@ -32,11 +32,7 @@ router.post('/get-ideas', async (req, res) => {
       .filter(line => line.trim())
       .map(line => line.replace(/^\d+\.\s*/, '').trim());
 
-    res.json({
-      promptReceived: prompt,
-      message: 'Test successful',
-      ideas
-    });
+    res.json({ promptReceived: prompt, message: 'Ideas generated!', ideas });
   } catch (error) {
     console.error('OpenAI Error:', error);
     res.status(500).json({ error: 'Failed to generate ideas', details: error.message });
