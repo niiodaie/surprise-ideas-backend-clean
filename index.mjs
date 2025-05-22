@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import ideaRoutes from './routes/ideas.routes.js';
-import emailRoutes from './routes/email.routes.js';
+// import emailRoutes from './routes/email.routes.js'; // Disabled for now
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ app.get('/', (req, res) => res.send('Surprise Ideas API Root'));
 app.get('/health', (req, res) => res.send({ status: 'OK' }));
 
 app.use('/api', ideaRoutes);
-app.use('/api', emailRoutes);
+// app.use('/api', emailRoutes); // Temporarily disabled
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
