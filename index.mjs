@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import ideaRoutes from './routes/ideas.routes.js';
+import ideaRoutes from './routes/ideas.routes.js'; // ✅ Your route import
 
 dotenv.config();
 
@@ -12,6 +12,7 @@ app.use(express.json());
 app.get('/', (req, res) => res.send('Surprise Ideas API Root'));
 app.get('/health', (req, res) => res.send({ status: 'OK' }));
 
+// ✅ Use the route
 app.use('/api', ideaRoutes);
 
 const PORT = process.env.PORT || 3000;
