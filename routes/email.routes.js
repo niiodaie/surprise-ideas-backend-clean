@@ -1,4 +1,3 @@
-// routes/email.routes.js
 import express from 'express';
 import { Resend } from 'resend';
 
@@ -8,29 +7,24 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 router.post('/send-email', async (req, res) => {
   const { email, ideas } = req.body;
 
-  if (!email || !ideas || !ideas.length) {
-    return res.status(400).json({ success: false, message: 'Missing email or ideas.' });
+  if (!email || !ideas || !Array.isArray(ideas)) {
+    return res.status(400).json({ error: 'Invalid request format' });
   }
 
-  const formattedIdeas = ideas.map((idea, i) => `<li>${idea}</li>`).join('');
-  const htmlContent = `
-    <h2>Your Surprise Ideas</h2>
-    <ul>${formattedIdeas}</ul>
-    <p>Thanks for using Surprise Ideas Generator!</p>
-  `;
-
   try {
-    await resend.emails.send({
-      from: 'Surprise Ideas <noreply@resend.visnec.ai>',
+    const formattedIdeas = ideas.map((idea, i) => `${i + 1}. ${idea}`).join('<br>');
+    const response = await resend.emails.send({
+      from: 'SurpriseIdeas@visnec.ai',
       to: email,
-      subject: 'Your Surprise Ideas!',
-      html: htmlContent,
+      subject: 'Your Surprise Ideas ✨',
+      html: `<p>Here are your surprise ideas:</p><p>${formattedIdeas}</p>`
     });
 
-    res.json({ success: true });
-  } catch (error) {
-    console.error('Email error:', error);
-    res.status(500).json({ success: false, message: 'Email send failed', details: error.message });
+    console.log('📧 Email sent:', response);
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error('❌ Email sending failed:', err);
+    res.status(500).json({ error: 'Failed to send email', details: err.message });
   }
 });
 
