@@ -3,7 +3,7 @@ import OpenAI from 'openai';
 
 const router = express.Router();
 
-const openai = new OpenAI({
+const openai = OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
