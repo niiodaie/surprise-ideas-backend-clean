@@ -1,8 +1,8 @@
-import express from 'express';
+ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import ideaRoutes from './routes/ideas.routes.js';
-import emailRoutes from './routes/email.routes.js'; // <- This is key
+import emailRoutes from './routes/email.routes.js'; // Include the email route
 
 dotenv.config();
 
@@ -10,13 +10,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => res.send('✅ Surprise Ideas API is live'));
-app.get('/health', (req, res) => res.json({ status: 'ok' }));
+app.get('/', (req, res) => res.send('Surprise Ideas API Root'));
+app.get('/health', (req, res) => res.send({ status: 'OK' }));
 
 app.use('/api', ideaRoutes);
-app.use('/api', emailRoutes); // <- Also important
+app.use('/api', emailRoutes);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
