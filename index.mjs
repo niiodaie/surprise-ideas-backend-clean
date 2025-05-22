@@ -1,8 +1,8 @@
- import express from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import ideaRoutes from './routes/ideas.routes.js';
-import emailRoutes from './routes/email.routes.js'; // Include the email route
+import emailRoutes from './routes/email.routes.js';
 
 dotenv.config();
 
