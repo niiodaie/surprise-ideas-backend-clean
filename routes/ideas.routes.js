@@ -14,28 +14,18 @@ router.post('/get-ideas', async (req, res) => {
     const completion = await openai.chat.completions.create({
       model: 'gpt-4',
       messages: [
-        {
-          role: 'system',
-          content: 'You are a creative assistant generating fun, original surprise ideas.'
-        },
-        {
-          role: 'user',
-          content: `Give me 5 surprise ideas for: ${prompt}`
-        }
-      ],
-      temperature: 0.9
+        { role: 'system', content: 'You are a creative assistant generating fun, original surprise ideas.' },
+        { role: 'user', content: `Generate 5 fun and creative surprise ideas for: ${prompt}` }
+      ]
     });
 
-    const ideasText = completion.choices[0].message.content;
-    const ideas = ideasText
-      .split('\n')
-      .filter(line => line.trim())
-      .map(line => line.replace(/^\d+\.\s*/, '').trim());
+    const raw = completion.choices[0].message.content;
+    const ideas = raw.split('\n').filter(line => line.trim()).map(line => line.replace(/^\d+\.\s*/, ''));
 
-    res.json({ promptReceived: prompt, message: 'Ideas generated!', ideas });
-  } catch (error) {
-    console.error('OpenAI Error:', error);
-    res.status(500).json({ error: 'Failed to generate ideas', details: error.message });
+    res.json({ ideas });
+  } catch (err) {
+    console.error('❌ OpenAI Error:', err);
+    res.status(500).json({ error: 'Failed to generate ideas.' });
   }
 });
 
