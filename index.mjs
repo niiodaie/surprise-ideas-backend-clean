@@ -6,6 +6,7 @@ import { Resend } from 'resend';
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 5051;
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 app.use(cors());
@@ -23,10 +24,8 @@ app.post('/api/send-email', async (req, res) => {
     res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Email failed to send.' });
+    res.status(500).json({ error: 'Failed to send email.' });
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+app.listen(port, () => console.log(`✅ Server running on port ${port}`));
