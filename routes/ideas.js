@@ -1,14 +1,17 @@
 import express from 'express';
 const router = express.Router();
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const { prompt } = req.body;
-  if (!prompt) return res.status(400).json({ error: 'Missing prompt' });
+  if (!prompt) return res.status(400).json({ error: 'Prompt required' });
+
+  // Mocked AI response
   const ideas = [
-    `🎁 Plan a surprise dinner for "${prompt}"`,
-    `🎉 Host a themed party: ${prompt}`,
-    `📦 Send a mystery gift box for: ${prompt}`,
+    `🎉 Surprise: ${prompt} with a personalized video message.`,
+    `🎁 Gift Idea: A custom box of treats for someone who enjoys ${prompt}.`,
+    `🌟 Activity: Organize a ${prompt}-themed scavenger hunt.`
   ];
+
   res.json({ ideas });
 });
 
