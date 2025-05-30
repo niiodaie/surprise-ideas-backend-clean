@@ -1,19 +1,17 @@
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
-import emailRoutes from './routes/email.routes.js';
 import ideasRoutes from './routes/ideas.routes.js';
+import emailRoutes from './routes/email.routes.js';
+import tagsRoutes from './routes/tags.routes.js'; // 🆕 Add this line
 
-dotenv.config();
 const app = express();
-const port = process.env.PORT || 8080;
-
 app.use(cors());
 app.use(express.json());
 
-app.use('/api', emailRoutes);
-app.use('/api', ideasRoutes);
+// Route endpoints
+app.use('/api/ideas', ideasRoutes);
+app.use('/api/email', emailRoutes);
+app.use('/api/tags', tagsRoutes); // 🆕 Add this line
 
-app.listen(port, () => {
-  console.log(`✅ Server running on port ${port}`);
-});
+const PORT = process.env.PORT || 5051;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
